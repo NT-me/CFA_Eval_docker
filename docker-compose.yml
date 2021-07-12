@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+    planner:
+      build:
+        dockerfile: Dockerfile
+        context: ./planner/
+      network_mode: host
+      container_name: cont_planner
+      image: image_planner
+      depends_on:
+        - worker
+
+    worker:
+      build:
+        dockerfile: Dockerfile
+        context: ./worker/
+      network_mode: host
+      container_name: cont_worker
+      image: image_worker
