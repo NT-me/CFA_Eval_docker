@@ -6,14 +6,25 @@ services:
         context: ./planner/
       network_mode: host
       container_name: cont_planner
+      environment:
+        - TASKS=4
       image: image_planner
       depends_on:
         - worker
+      # ports:
+      #   - "3000"
 
     worker:
       build:
         dockerfile: Dockerfile
         context: ./worker/
-      network_mode: host
-      container_name: cont_worker
+      # network_mode: host
+      # container_name: cont_worker
+      ports:
+        - 3000-3003:25565
+      # scale: 4
+      environment:
+        - MULT=True
+        - ADD=True
+        - PORT=25565
       image: image_worker
