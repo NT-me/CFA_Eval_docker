@@ -10,11 +10,12 @@ services:
         - TASKS=4
       image: image_planner
       depends_on:
-        - worker
+        - worker_MULT
+        - worker_ADD
       # ports:
       #   - "3000"
 
-    worker:
+    worker_ADD:
       build:
         dockerfile: Dockerfile
         context: ./worker/
@@ -24,7 +25,20 @@ services:
         - 3000-3003:25565
       # scale: 4
       environment:
-        - MULT=True
         - ADD=True
+        - PORT=25565
+      image: image_worker
+
+    worker_MULT:
+      build:
+        dockerfile: Dockerfile
+        context: ./worker/
+      # network_mode: host
+      # container_name: cont_worker
+      ports:
+        - 3004-3007:25565
+      # scale: 4
+      environment:
+        - MULT=True
         - PORT=25565
       image: image_worker
